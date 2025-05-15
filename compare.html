@@ -2,76 +2,98 @@
 <html lang="vi">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>So sánh Quốc gia</title>
-    <link rel="icon" href="icon.png" type="image/x-icon">
-  <link rel="stylesheet" href="style.css" />
+      <p><a href="index.html">🔙 Quay lại trang tra cứu</a></p>
   <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f0f8ff;
+      margin: 0;
+      padding: 20px;
+      text-align: center;
+    }
+
+    h1 {
+      color: #00796b;
+    }
+
+    select, button {
+      padding: 10px;
+      margin: 10px;
+      font-size: 16px;
+    }
+
     .compare-container {
       display: flex;
+      justify-content: center;
       flex-wrap: wrap;
       gap: 20px;
-      justify-content: center;
       margin-top: 20px;
     }
-    .compare-card {
+
+    .card {
       background: white;
-      padding: 15px;
-      border-radius: 12px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-      text-align: left;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
       width: 300px;
+      text-align: left;
     }
-    .compare-card img {
+
+    .card img {
       width: 100px;
+      display: block;
       margin-bottom: 10px;
     }
-    .compare-summary {
-      width: 100%;
-      max-width: 800px;
-      margin: 30px auto;
-      background: #f3f3f3;
-      padding: 20px;
-      border-radius: 12px;
-      text-align: left;
+
+    .result {
+      margin-top: 30px;
+      background: #fff3cd;
+      padding: 15px;
+      border-radius: 8px;
+      max-width: 700px;
+      margin-left: auto;
+      margin-right: auto;
     }
-    select {
-      padding: 10px;
-      font-size: 16px;
-      margin: 10px;
+
+    .fav-btn {
+      margin-top: 10px;
+      background: #ffca28;
+      border: none;
+      padding: 8px 12px;
+      border-radius: 6px;
+      cursor: pointer;
     }
   </style>
 </head>
 <body>
-  <div class="container">
-    <h1>⚖️ So sánh Hai Quốc gia</h1>
-    <div>
-      <select id="country1">
-        <option value="">-- Chọn quốc gia 1 --</option>
-      </select>
-      <select id="country2">
-        <option value="">-- Chọn quốc gia 2 --</option>
-      </select>
-      <button onclick="compareCountries()">So sánh</button>
-    </div>
+  <h1>⚖️ So sánh Quốc gia</h1>
 
-    <div class="compare-container" id="compareResult"></div>
-    <div id="summaryResult" class="compare-summary"></div>
+  <select id="country1">
+    <option value="">-- Chọn quốc gia 1 --</option>
+  </select>
 
-    <p><a href="index.html">🔙 Quay lại trang chính</a></p>
-  </div>
+  <select id="country2">
+    <option value="">-- Chọn quốc gia 2 --</option>
+  </select>
+
+  <button onclick="compare()">So sánh</button>
+
+  <div class="compare-container" id="compareContainer"></div>
+  <div class="result" id="compareResult"></div>
 
   <script>
-    let allData = [];
+    let allCountries = [];
 
-    fetch("https://restcountries.com/v3.1/all")
+    // Load dữ liệu quốc gia
+    fetch('https://restcountries.com/v3.1/all')
       .then(res => res.json())
       .then(data => {
-        allData = data;
+        allCountries = data;
         const names = data.map(c => c.name.common).sort();
         const sel1 = document.getElementById("country1");
         const sel2 = document.getElementById("country2");
-
         names.forEach(name => {
           const opt1 = document.createElement("option");
           const opt2 = document.createElement("option");
@@ -82,75 +104,71 @@
         });
       });
 
-    function compareCountries() {
+    function compare() {
       const name1 = document.getElementById("country1").value;
       const name2 = document.getElementById("country2").value;
+      const container = document.getElementById("compareContainer");
+      const result = document.getElementById("compareResult");
+      container.innerHTML = "";
+      result.innerHTML = "";
 
       if (!name1 || !name2) {
-        alert("Vui lòng chọn đủ hai quốc gia!");
+        alert("Vui lòng chọn đủ hai quốc gia.");
         return;
       }
 
-      const data1 = allData.find(c => c.name.common === name1);
-      const data2 = allData.find(c => c.name.common === name2);
+      const country1 = allCountries.find(c => c.name.common === name1);
+      const country2 = allCountries.find(c => c.name.common === name2);
 
-      const result = document.getElementById("compareResult");
-      const summary = document.getElementById("summaryResult");
-      result.innerHTML = "";
-      summary.innerHTML = "";
+      // Hiển thị từng quốc gia
+      [country1, country2].forEach(country => {
+        const div = document.createElement("div");
+        div.className = "card";
 
-      const cardHTML = (data) => {
-        const flag = data.flags.svg;
-        const name = data.name.common;
-        const capital = data.capital?.[0] || "Không rõ";
-        const population = data.population;
-        const area = data.area;
-        const currency = Object.values(data.currencies || {})[0]?.name || "Không rõ";
-        const region = data.region;
-        const languages = Object.values(data.languages || {}).join(", ") || "Không rõ";
+        const languages = country.languages ? Object.values(country.languages).join(", ") : "Không rõ";
+        const currency = country.currencies ? Object.values(country.currencies)[0].name : "Không rõ";
+        const capital = country.capital?.[0] || "Không rõ";
 
-        return `
-          <img src="${flag}" alt="Flag of ${name}" />
-          <h3>${name}</h3>
+        div.innerHTML = `
+          <img src="${country.flags.svg}" alt="Flag" />
+          <h3>${country.name.common}</h3>
           <p><strong>Thủ đô:</strong> ${capital}</p>
-          <p><strong>Dân số:</strong> ${population.toLocaleString()}</p>
-          <p><strong>Diện tích:</strong> ${area.toLocaleString()} km²</p>
-          <p><strong>Tiền tệ:</strong> ${currency}</p>
-          <p><strong>Khu vực:</strong> ${region}</p>
+          <p><strong>Dân số:</strong> ${country.population.toLocaleString()}</p>
+          <p><strong>Diện tích:</strong> ${country.area.toLocaleString()} km²</p>
           <p><strong>Ngôn ngữ:</strong> ${languages}</p>
+          <p><strong>Tiền tệ:</strong> ${currency}</p>
+          <button class="fav-btn" onclick="addToFavorites('${country.name.common}', '${country.flags.svg}')">⭐ Lưu vào yêu thích</button>
         `;
-      };
+        container.appendChild(div);
+      });
 
-      // Hiển thị thẻ từng quốc gia
-      const card1 = document.createElement("div");
-      card1.className = "compare-card";
-      card1.innerHTML = cardHTML(data1);
+      // So sánh và hiển thị kết quả
+      const largerArea = country1.area > country2.area ? name1 : (country1.area < country2.area ? name2 : "Bằng nhau");
+      const morePop = country1.population > country2.population ? name1 : (country1.population < country2.population ? name2 : "Bằng nhau");
+      const lang1 = country1.languages ? Object.keys(country1.languages).length : 0;
+      const lang2 = country2.languages ? Object.keys(country2.languages).length : 0;
+      const moreLang = lang1 > lang2 ? name1 : (lang1 < lang2 ? name2 : "Bằng nhau");
 
-      const card2 = document.createElement("div");
-      card2.className = "compare-card";
-      card2.innerHTML = cardHTML(data2);
-
-      result.appendChild(card1);
-      result.appendChild(card2);
-
-      // 🟡 So sánh kết quả:
-      const area1 = data1.area, area2 = data2.area;
-      const pop1 = data1.population, pop2 = data2.population;
-      const lang1 = Object.keys(data1.languages || {}).length;
-      const lang2 = Object.keys(data2.languages || {}).length;
-
-      const getCompare = (a, b, label) => {
-        if (a > b) return `✅ <strong>${name1}</strong> có ${label} lớn hơn`;
-        if (a < b) return `✅ <strong>${name2}</strong> có ${label} lớn hơn`;
-        return `⚖️ Hai quốc gia có ${label} bằng nhau`;
-      };
-
-      summary.innerHTML = `
-        <h3>📊 Kết quả So sánh</h3>
-        <p>${getCompare(area1, area2, "diện tích")}</p>
-        <p>${getCompare(pop1, pop2, "dân số")}</p>
-        <p>${getCompare(lang1, lang2, "số lượng ngôn ngữ")}</p>
+      result.innerHTML = `
+        <h3>📊 Kết quả So sánh:</h3>
+        <p>🌍 Diện tích lớn hơn: <strong>${largerArea}</strong></p>
+        <p>👥 Dân số nhiều hơn: <strong>${morePop}</strong></p>
+        <p>🗣️ Ngôn ngữ đa dạng hơn: <strong>${moreLang}</strong></p>
       `;
+    }
+
+    function addToFavorites(name, flag) {
+      const user = localStorage.getItem("username") || "guest";
+      const key = "favorites_" + user;
+      const existing = JSON.parse(localStorage.getItem(key)) || [];
+
+      if (!existing.some(item => item.name === name)) {
+        existing.push({ name, flag });
+        localStorage.setItem(key, JSON.stringify(existing));
+        alert(`✅ Đã thêm ${name} vào danh sách yêu thích.`);
+      } else {
+        alert(`⚠️ ${name} đã có trong danh sách yêu thích.`);
+      }
     }
   </script>
 </body>

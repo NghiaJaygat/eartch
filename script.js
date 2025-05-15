@@ -32,6 +32,7 @@ document.getElementById('searchBtn').addEventListener('click', () => {
         <p><strong>Tiền tệ:</strong> ${currency}</p>
         <p><strong>Khu vực:</strong> ${region}</p>
         <p><strong>Ngôn ngữ:</strong> ${languages}</p>
+        <button onclick="addToFavorites('${name}', '${flag}')">⭐ Lưu vào yêu thích</button>
         <p><a href="${mapLink}" target="_blank">Xem bản đồ trên Google Maps</a></p>
       `;
     })
@@ -78,4 +79,49 @@ searchInput.addEventListener("input", () => {
       suggestions.appendChild(li);
     });
   }
+});
+
+// yêu thích
+function addToFavorites(name, flag) {
+  const user = localStorage.getItem("username") || "guest";
+  const key = "favorites_" + user;
+  const existing = JSON.parse(localStorage.getItem(key)) || [];
+
+  if (!existing.some(item => item.name === name)) {
+    existing.push({ name, flag });
+    localStorage.setItem(key, JSON.stringify(existing));
+    alert(`✅ Đã thêm ${name} vào danh sách yêu thích.`);
+    loadFavorites(); // cập nhật danh sách
+  } else {
+    alert(`⚠️ ${name} đã có trong danh sách yêu thích.`);
+  }
+}
+function loadFavorites() {
+  const user = localStorage.getItem("username") || "guest";
+  const key = "favorites_" + user;
+  const list = JSON.parse(localStorage.getItem(key)) || [];
+  const container = document.getElementById("favoriteList");
+  if (!container) return;
+  container.innerHTML = "";
+
+  list.forEach(item => {
+    const li = document.createElement("li");
+    li.textContent = item.name;
+    li.style = "margin-bottom: 6px;";
+
+    const btn = document.createElement("button");
+    btn.textContent = "❌";
+    btn.style = "margin-left: 10px; background:red; color:white; border:none; padding:3px 6px; border-radius:4px;";
+    btn.onclick = () => {
+      const newList = list.filter(c => c.name !== item.name);
+      localStorage.setItem(key, JSON.stringify(newList));
+      loadFavorites();
+    };
+
+    li.appendChild(btn);
+    container.appendChild(li);
+  });
+}
+document.addEventListener("DOMContentLoaded", () => {
+  loadFavorites();
 });
