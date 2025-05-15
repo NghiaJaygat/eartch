@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Đăng ký</title>
+    <link rel="icon" href="icon.png" type="image/x-icon">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="form-container">
+    <h2>Đăng ký </h2>
+    <input type="text" id="signupUsername" placeholder="Tên người dùng" />
+    <input type="password" id="signupPassword" placeholder="Mật khẩu" />
+    <button onclick="signup()">Đăng ký</button>
+    <p>Bạn đã có tài khoản? <a href="signin.html">Đăng nhập</a></p>
+  </div>
+
+  <script>
+    function signup() {
+      const username = document.getElementById("signupUsername").value;
+      const password = document.getElementById("signupPassword").value;
+
+      if (username && password) {
+        localStorage.setItem("username", username);
+        localStorage.setItem("password", password);
+        alert("Đăng ký thành công!");
+        window.location.href = "signin.html";
+      } else {
+        alert("Vui lòng điền đầy đủ thông tin.");
+      }
+    }
+  </script>
+</body>
+</html>

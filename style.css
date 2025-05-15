@@ -1,0 +1,92 @@
+body {
+  font-family: 'Segoe UI', sans-serif;
+  background: linear-gradient(to right, #e0f7fa, #ffffff);
+  margin: 0;
+  padding: 0;
+  text-align: center;
+}
+
+.container {
+  max-width: 600px;
+  margin: auto;
+  padding: 30px 20px;
+}
+
+h1 {
+  color: #00796b;
+  margin-bottom: 20px;
+}
+
+input, button {
+  padding: 12px;
+  font-size: 16px;
+  margin: 8px 5px;
+  width: 60%;
+  max-width: 300px;
+}
+
+button {
+  background-color: #00796b;
+  color: white;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+button:hover {
+  background-color: #004d40;
+}
+
+.card {
+  background: white;
+  padding: 20px;
+  margin-top: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  text-align: left;
+}
+
+.card img {
+  width: 120px;
+  border: 1px solid #ddd;
+  margin-bottom: 10px;
+}
+
+.card p {
+  margin: 5px 0;
+}
+
+/* Hiệu ứng hình nền */
+body {
+  height: 100vh;
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(to right, #00bcd4, #ffffff, #00bcd4);
+  background-size: 200% 100%;
+  animation: gradientIn 4s infinite alternate;
+  font-family: 'Segoe UI', sans-serif;
+}
+@keyframes gradientIn {
+  0% {
+    background-position: 100% 0;
+  }
+  100% {
+    background-position: 0% 0;
+  }
+}
+
+
+
+
+.history-list li {
+  background: #f1f1f1;
+  padding: 8px;
+  margin: 4px auto;
+  max-width: 400px;
+  border-radius: 6px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
