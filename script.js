@@ -37,7 +37,7 @@ document.getElementById('searchBtn').addEventListener('click', () => {
       `;
     })
     .catch(() => {
-      document.getElementById('result').innerHTML = `<p>Không tìm thấy quốc gia! Vui lòng kiểm tra lại tên.</p>`;
+      document.getElementById('result').innerHTML = `<p>Rất tiêc, bạn không có nước=).</p>`;
     });
 });
 
