@@ -183,3 +183,11 @@ button[type="submit"]:active {
         font-size: 1em;
     }
 }
+
+.card img { /* Hoặc id cụ thể của ảnh nếu có */
+  display: block; /* Để căn giữa dễ dàng */
+  margin: 0 auto 10px auto; /* Căn giữa theo chiều ngang và thêm khoảng cách dưới */
+  width: 100px; /* Đảm bảo kích thước ảnh phù hợp */
+  height: auto; /* Giữ tỷ lệ khung hình */
+  object-fit: contain; /* Đảm bảo toàn bộ ảnh hiển thị mà không bị cắt */
+}

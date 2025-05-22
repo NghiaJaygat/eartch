@@ -25,7 +25,7 @@ document.getElementById('searchBtn').addEventListener('click', () => {
       const languages = Object.values(info.languages || {}).join(', ') || 'Không rõ';
 
       document.getElementById('result').innerHTML = `
-        <img src="${flag}" alt="Quốc kỳ ${name}" style="width:100px;" />
+        <img src="${flag}" alt="Quốc kỳ ${name}" style="width:200px;"; style="width:200px; display: block; margin: 0 auto 10px auto;" />
         <h2>${name}</h2>
         <p><strong>Thủ đô:</strong> ${capital}</p>
         <p><strong>Dân số:</strong> ${population}</p>
@@ -97,3 +97,17 @@ document.addEventListener("click", (e) => {
     suggestions.innerHTML = '';
   }
 });
+
+function addToFavorites(name, flag) {
+  const user = localStorage.getItem("username") || "guest";
+  const key = "favorites_" + user;
+  const existing = JSON.parse(localStorage.getItem(key)) || [];
+
+  if (!existing.some(item => item.name === name)) {
+    existing.push({ name, flag });
+    localStorage.setItem(key, JSON.stringify(existing));
+    alert(`✅ Đã thêm ${name} vào danh sách yêu thích.`);
+  } else {
+    alert(`⚠️ ${name} đã có trong danh sách yêu thích.`);
+  }
+}
