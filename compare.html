@@ -4,71 +4,13 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>So sánh Quốc gia</title>
-      <p><a href="index.html">🔙 Quay lại trang tra cứu</a></p>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: #f0f8ff;
-      margin: 0;
-      padding: 20px;
-      text-align: center;
-    }
-
-    h1 {
-      color: #00796b;
-    }
-
-    select, button {
-      padding: 10px;
-      margin: 10px;
-      font-size: 16px;
-    }
-
-    .compare-container {
-      display: flex;
-      justify-content: center;
-      flex-wrap: wrap;
-      gap: 20px;
-      margin-top: 20px;
-    }
-
-    .card {
-      background: white;
-      padding: 20px;
-      border-radius: 10px;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-      width: 300px;
-      text-align: left;
-    }
-
-    .card img {
-      width: 100px;
-      display: block;
-      margin-bottom: 10px;
-    }
-
-    .result {
-      margin-top: 30px;
-      background: #fff3cd;
-      padding: 15px;
-      border-radius: 8px;
-      max-width: 700px;
-      margin-left: auto;
-      margin-right: auto;
-    }
-
-    .fav-btn {
-      margin-top: 10px;
-      background: #ffca28;
-      border: none;
-      padding: 8px 12px;
-      border-radius: 6px;
-      cursor: pointer;
-    }
-  </style>
+  <link rel="icon" href="icon.png" type="image/x-icon">
+    <link rel="stylesheet" href="style.css" />
 </head>
 <body>
   <h1>⚖️ So sánh Quốc gia</h1>
+
+  <p><a href="index.html">🔙 Quay lại trang tra cứu</a></p>
 
   <select id="country1">
     <option value="">-- Chọn quốc gia 1 --</option>
@@ -83,93 +25,9 @@
   <div class="compare-container" id="compareContainer"></div>
   <div class="result" id="compareResult"></div>
 
-  <script>
-    let allCountries = [];
+  <script src="compare.js"></script>
 
-    // Load dữ liệu quốc gia
-    fetch('https://restcountries.com/v3.1/all')
-      .then(res => res.json())
-      .then(data => {
-        allCountries = data;
-        const names = data.map(c => c.name.common).sort();
-        const sel1 = document.getElementById("country1");
-        const sel2 = document.getElementById("country2");
-        names.forEach(name => {
-          const opt1 = document.createElement("option");
-          const opt2 = document.createElement("option");
-          opt1.value = opt2.value = name;
-          opt1.textContent = opt2.textContent = name;
-          sel1.appendChild(opt1);
-          sel2.appendChild(opt2);
-        });
-      });
-
-    function compare() {
-      const name1 = document.getElementById("country1").value;
-      const name2 = document.getElementById("country2").value;
-      const container = document.getElementById("compareContainer");
-      const result = document.getElementById("compareResult");
-      container.innerHTML = "";
-      result.innerHTML = "";
-
-      if (!name1 || !name2) {
-        alert("Vui lòng chọn đủ hai quốc gia.");
-        return;
-      }
-
-      const country1 = allCountries.find(c => c.name.common === name1);
-      const country2 = allCountries.find(c => c.name.common === name2);
-
-      // Hiển thị từng quốc gia
-      [country1, country2].forEach(country => {
-        const div = document.createElement("div");
-        div.className = "card";
-
-        const languages = country.languages ? Object.values(country.languages).join(", ") : "Không rõ";
-        const currency = country.currencies ? Object.values(country.currencies)[0].name : "Không rõ";
-        const capital = country.capital?.[0] || "Không rõ";
-
-        div.innerHTML = `
-          <img src="${country.flags.svg}" alt="Flag" />
-          <h3>${country.name.common}</h3>
-          <p><strong>Thủ đô:</strong> ${capital}</p>
-          <p><strong>Dân số:</strong> ${country.population.toLocaleString()}</p>
-          <p><strong>Diện tích:</strong> ${country.area.toLocaleString()} km²</p>
-          <p><strong>Ngôn ngữ:</strong> ${languages}</p>
-          <p><strong>Tiền tệ:</strong> ${currency}</p>
-          <button class="fav-btn" onclick="addToFavorites('${country.name.common}', '${country.flags.svg}')">⭐ Lưu vào yêu thích</button>
-        `;
-        container.appendChild(div);
-      });
-
-      // So sánh và hiển thị kết quả
-      const largerArea = country1.area > country2.area ? name1 : (country1.area < country2.area ? name2 : "Bằng nhau");
-      const morePop = country1.population > country2.population ? name1 : (country1.population < country2.population ? name2 : "Bằng nhau");
-      const lang1 = country1.languages ? Object.keys(country1.languages).length : 0;
-      const lang2 = country2.languages ? Object.keys(country2.languages).length : 0;
-      const moreLang = lang1 > lang2 ? name1 : (lang1 < lang2 ? name2 : "Bằng nhau");
-
-      result.innerHTML = `
-        <h3>📊 Kết quả So sánh:</h3>
-        <p>🌍 Diện tích lớn hơn: <strong>${largerArea}</strong></p>
-        <p>👥 Dân số nhiều hơn: <strong>${morePop}</strong></p>
-        <p>🗣️ Ngôn ngữ đa dạng hơn: <strong>${moreLang}</strong></p>
-      `;
-    }
-
-    function addToFavorites(name, flag) {
-      const user = localStorage.getItem("username") || "guest";
-      const key = "favorites_" + user;
-      const existing = JSON.parse(localStorage.getItem(key)) || [];
-
-      if (!existing.some(item => item.name === name)) {
-        existing.push({ name, flag });
-        localStorage.setItem(key, JSON.stringify(existing));
-        alert(`✅ Đã thêm ${name} vào danh sách yêu thích.`);
-      } else {
-        alert(`⚠️ ${name} đã có trong danh sách yêu thích.`);
-      }
-    }
-  </script>
+    </ul>
+<a href="home.html" class="btn-primary">🔙 Quay lại trang chủ</a>
 </body>
 </html>
