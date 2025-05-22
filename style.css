@@ -404,3 +404,19 @@ nav .btn-small:hover {
     padding: 12px 25px; /* Tăng kích thước padding */
     font-size: 1.1em; /* Tăng kích thước font */
 }
+
+.add-to-favorites-btn {
+  background-color: #e74c3c; /* Màu đỏ cho nút yêu thích */
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1em;
+  margin-top: 20px; /* Tạo khoảng cách với bản đồ */
+  transition: background-color 0.3s ease;
+}
+
+.add-to-favorites-btn:hover {
+  background-color: #c0392b; /* Màu đỏ sẫm hơn khi hover */
+}
