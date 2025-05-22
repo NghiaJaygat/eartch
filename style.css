@@ -420,3 +420,67 @@ nav .btn-small:hover {
 .add-to-favorites-btn:hover {
   background-color: #c0392b; /* Màu đỏ sẫm hơn khi hover */
 }
+/* Trong home.css */
+
+/* Để các nút auth nằm góc trên bên phải */
+.auth-section {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px; /* Khoảng cách giữa các phần tử */
+}
+
+#authButtons, #userInfo {
+    display: flex; /* Sử dụng flexbox để các nút/phần tử nằm ngang */
+    gap: 10px; /* Khoảng cách giữa các nút */
+    align-items: center; /* Căn giữa theo chiều dọc */
+}
+
+#welcomeMessage {
+    font-size: 1.1em;
+    font-weight: bold;
+    color: #0d47a1; /* Màu chữ tương tự tiêu đề */
+    margin-right: 10px; /* Khoảng cách với nút đăng xuất */
+}
+
+/* Định dạng cho các nút nhỏ */
+.btn-small {
+    background-color: #0d47a1; /* Màu xanh đậm */
+    color: white;
+    padding: 8px 15px;
+    border: none;
+    border-radius: 5px;
+    text-decoration: none;
+    font-size: 0.9em;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+.btn-small:hover {
+    background-color: #1976d2; /* Màu xanh nhạt hơn khi hover */
+}
+
+.btn-small-outline {
+    background-color: transparent;
+    color: #0d47a1;
+    padding: 8px 15px;
+    border: 2px solid #0d47a1; /* Viền xanh đậm */
+    border-radius: 5px;
+    text-decoration: none;
+    font-size: 0.9em;
+    font-weight: bold;
+    cursor: pointer; /* Cho nút button */
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.btn-small-outline:hover {
+    background-color: #0d47a1; /* Nền xanh khi hover */
+    color: white; /* Chữ trắng khi hover */
+}
+
+/* Điều chỉnh nav chính để không bị đè lên auth-section */
+header nav {
+    margin-top: 50px; /* Tạo khoảng cách nếu auth-section ở trên */
+}

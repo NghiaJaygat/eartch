@@ -1,3 +1,5 @@
+/* sign.css */
+
 /* Biến CSS cho màu sắc dễ quản lý */
 :root {
     --primary-color: #007bff; /* Xanh biển chính */
@@ -8,17 +10,19 @@
     --hover-color: #0056b3; /* Xanh biển khi hover */
     --text-color: #343a40; /* Màu chữ chính */
     --light-text-color: #6c757d; /* Màu chữ phụ */
+    --gradient-start: #e3f2fd; /* Màu gradient nhẹ */
+    --gradient-end: #ffffff;
 }
 
 body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: 'Roboto', sans-serif; /* Sử dụng Roboto cho đồng bộ */
     margin: 0;
     padding: 0;
     display: flex;
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-    background-color: var(--background-color);
+    background: linear-gradient(to bottom, var(--gradient-start), var(--gradient-end)); /* Sử dụng gradient */
     color: var(--text-color);
 }
 
@@ -29,106 +33,71 @@ body {
 
 .container {
     width: 100%;
-    max-width: 400px; /* Chiều rộng tối đa của form */
-    padding: 20px;
-    margin: 20px;
+    max-width: 420px; /* Chiều rộng tối đa của form được tăng nhẹ */
+    padding: 40px; /* Tăng padding để có không gian hơn */
     background-color: var(--white-color);
-    border-radius: 8px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    border-radius: 10px; /* Bo góc nhẹ nhàng */
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1); /* Bóng đổ mạnh hơn */
     text-align: center;
+    position: relative; /* Để có thể định vị nút back-to-home */
 }
 
-.auth-form {
-    background-color: var(--white-color);
-    border-radius: 8px;
-    padding: 30px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
-}
-
-.auth-form h2 {
+h2 {
+    font-size: 2.2em; /* Tiêu đề lớn hơn */
     color: var(--primary-color);
-    margin-bottom: 25px;
-    font-size: 1.8em;
-    font-weight: 600;
-}
-
-.auth-tabs {
-    display: flex;
-    margin-bottom: 25px;
-    border-bottom: 1px solid #eee;
-}
-
-.tab-button {
-    flex-grow: 1;
-    padding: 12px 0;
-    font-size: 1.1em;
-    font-weight: 500;
-    color: var(--light-text-color);
-    background-color: transparent;
-    border: none;
-    cursor: pointer;
-    transition: color 0.3s ease, border-bottom 0.3s ease;
-}
-
-.tab-button.active {
-    color: var(--primary-color);
-    border-bottom: 2px solid var(--primary-color);
-    font-weight: 600;
-}
-
-.tab-button:hover:not(.active) {
-    color: var(--primary-color);
+    margin-bottom: 30px; /* Khoảng cách lớn hơn dưới tiêu đề */
+    font-weight: 700; /* Font dày hơn */
 }
 
 .form-group {
-    margin-bottom: 20px;
-    text-align: left;
+    margin-bottom: 20px; /* Khoảng cách giữa các nhóm form */
+    text-align: left; /* Căn trái label và input */
 }
 
 .form-group label {
-    display: block;
-    margin-bottom: 8px;
-    font-weight: 500;
+    display: block; /* Đảm bảo label nằm trên input */
+    margin-bottom: 8px; /* Khoảng cách giữa label và input */
+    font-weight: 500; /* Font chữ trung bình */
     color: var(--text-color);
+    font-size: 1.05em;
 }
 
 .form-group input[type="text"],
-.form-group input[type="email"],
-.form-group input[type="password"] {
+.form-group input[type="password"],
+.form-group input[type="email"] { /* Thêm type email nếu cần */
     width: 100%;
-    padding: 12px 15px;
+    padding: 12px 15px; /* Tăng padding input */
     border: 1px solid var(--border-color);
     border-radius: 5px;
     font-size: 1em;
-    color: var(--text-color);
     transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 .form-group input[type="text"]:focus,
-.form-group input[type="email"]:focus,
-.form-group input[type="password"]:focus {
+.form-group input[type="password"]:focus,
+.form-group input[type="email"]:focus {
     border-color: var(--primary-color);
-    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25);
+    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25); /* Hiệu ứng focus rõ hơn */
     outline: none;
 }
 
 button[type="submit"] {
     width: 100%;
-    padding: 12px 20px;
+    padding: 15px 20px; /* Tăng padding nút submit */
     background-color: var(--primary-color);
     color: var(--white-color);
     border: none;
-    border-radius: 5px;
-    font-size: 1.1em;
-    font-weight: 600;
+    border-radius: 8px; /* Bo góc nút submit nhiều hơn */
+    font-size: 1.2em; /* Font nút to hơn */
+    font-weight: 700; /* Font dày hơn */
     cursor: pointer;
     transition: background-color 0.3s ease, transform 0.2s ease;
-    margin-top: 15px;
+    margin-top: 25px; /* Khoảng cách lớn hơn từ form */
 }
 
 button[type="submit"]:hover {
     background-color: var(--hover-color);
-    transform: translateY(-1px);
+    transform: translateY(-2px); /* Nâng lên một chút khi hover */
 }
 
 button[type="submit"]:active {
@@ -136,58 +105,51 @@ button[type="submit"]:active {
 }
 
 .form-footer {
-    margin-top: 25px;
-    font-size: 0.95em;
+    margin-top: 30px; /* Khoảng cách lớn hơn dưới nút submit */
+    font-size: 1em; /* Font chữ footer lớn hơn */
     color: var(--light-text-color);
 }
 
 .form-footer a {
     color: var(--primary-color);
     text-decoration: none;
-    font-weight: 500;
+    font-weight: 600; /* Font dày hơn */
     transition: color 0.3s ease;
 }
 
 .form-footer a:hover {
     color: var(--hover-color);
-    text-decoration: underline;
+    text-decoration: underline; /* Gạch chân khi hover */
 }
 
-/* Responsive adjustments */
+/* Style cho nút "Quay lại trang chủ" */
+.back-to-home {
+    display: inline-block;
+    margin-top: 25px; /* Khoảng cách từ form-footer */
+    padding: 10px 20px;
+    background-color: var(--secondary-color); /* Màu xám */
+    color: var(--white-color);
+    text-decoration: none;
+    border-radius: 5px;
+    font-size: 0.95em;
+    transition: background-color 0.3s ease;
+}
+
+.back-to-home:hover {
+    background-color: #5a6268; /* Màu xám đậm hơn */
+}
+
+/* Responsive */
 @media (max-width: 500px) {
     .container {
-        margin: 10px;
-        padding: 15px;
+        padding: 25px;
+        margin: 20px; /* Thêm margin để form không dính vào cạnh màn hình */
     }
-
-    .auth-form {
-        padding: 20px;
+    h2 {
+        font-size: 1.8em;
     }
-
-    .auth-form h2 {
-        font-size: 1.6em;
-        margin-bottom: 20px;
-    }
-
-    .tab-button {
-        font-size: 1em;
-        padding: 10px 0;
-    }
-
-    .form-group input {
-        padding: 10px 12px;
-    }
-
     button[type="submit"] {
-        padding: 10px 15px;
-        font-size: 1em;
+        font-size: 1.1em;
+        padding: 12px 15px;
     }
-}
-
-.card img { /* Hoặc id cụ thể của ảnh nếu có */
-  display: block; /* Để căn giữa dễ dàng */
-  margin: 0 auto 10px auto; /* Căn giữa theo chiều ngang và thêm khoảng cách dưới */
-  width: 100px; /* Đảm bảo kích thước ảnh phù hợp */
-  height: auto; /* Giữ tỷ lệ khung hình */
-  object-fit: contain; /* Đảm bảo toàn bộ ảnh hiển thị mà không bị cắt */
 }
