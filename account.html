@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Quản lý Tài khoản</title>
+<link rel="stylesheet" href="style.css" />
+<link rel="stylesheet" href="home.css" />
+<body>
+  <div class="container">
+    <h1>👤 Quản lý Tài khoản</h1>
+    <div class="card">
+      <h2>Thông tin cá nhân</h2>
+      <p><strong>Tên người dùng:</strong> <span id="accountUsername"></span></p>
+      <p><strong>Điểm cộng:</strong> <span id="accountPoints"></span></p>
+
+      <h3>Cập nhật tên người dùng</h3>
+      <label for="newUsername">Tên người dùng mới:</label>
+      <input type="text" id="newUsername" placeholder="Nhập tên người dùng mới" />
+      <button onclick="updateUsername()">Cập nhật tên</button>
+      <p id="usernameUpdateMessage" style="color: green;"></p>
+
+      <h3>Đổi mật khẩu</h3>
+      <label for="currentPassword">Mật khẩu hiện tại:</label>
+      <input type="password" id="currentPassword" placeholder="Nhập mật khẩu hiện tại" />
+      <br><br>
+      <label for="newPassword">Mật khẩu mới:</label>
+      <input type="password" id="newPassword" placeholder="Nhập mật khẩu mới" />
+      <br><br>
+      <label for="confirmNewPassword">Xác nhận mật khẩu mới:</label>
+      <input type="password" id="confirmNewPassword" placeholder="Xác nhận mật khẩu mới" />
+      <button onclick="changePassword()">Đổi mật khẩu</button>
+      <p id="passwordUpdateMessage" style="color: green;"></p>
+    </div>
+    <a href="home.html" class="btn-primary">🔙 Quay lại trang chủ</a>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const username = localStorage.getItem("username") || "Khách";
+      const points = localStorage.getItem("userPoints") || 0;
+
+      document.getElementById("accountUsername").textContent = username;
+      document.getElementById("accountPoints").textContent = points;
+    });
+
+    function updateUsername() {
+      const newUsernameInput = document.getElementById("newUsername");
+      const newUsername = newUsernameInput.value.trim();
+      const updateMessage = document.getElementById("usernameUpdateMessage");
+
+      if (newUsername) {
+        localStorage.setItem("username", newUsername);
+        document.getElementById("accountUsername").textContent = newUsername;
+        updateMessage.textContent = "Cập nhật tên người dùng thành công!";
+        updateMessage.style.color = "green";
+        newUsernameInput.value = ""; // Xóa trường nhập liệu
+      } else {
+        updateMessage.textContent = "Tên người dùng không được để trống!";
+        updateMessage.style.color = "red";
+      }
+    }
+
+    function changePassword() {
+      const currentPasswordInput = document.getElementById("currentPassword");
+      const newPasswordInput = document.getElementById("newPassword");
+      const confirmNewPasswordInput = document.getElementById("confirmNewPassword");
+      const passwordUpdateMessage = document.getElementById("passwordUpdateMessage");
+
+      const currentPassword = currentPasswordInput.value;
+      const newPassword = newPasswordInput.value;
+      const confirmNewPassword = confirmNewPasswordInput.value;
+
+      // Trong một ứng dụng thực tế, bạn sẽ gửi currentPassword đến server để xác thực
+      // và sau đó hash newPassword trước khi lưu trữ.
+      const storedPassword = localStorage.getItem("password"); // Rất không an toàn!
+
+      if (!currentPassword || !newPassword || !confirmNewPassword) {
+        passwordUpdateMessage.textContent = "Vui lòng điền đầy đủ các trường!";
+        passwordUpdateMessage.style.color = "red";
+        return;
+      }
+
+      if (currentPassword !== storedPassword) { // So sánh trực tiếp, không an toàn!
+        passwordUpdateMessage.textContent = "Mật khẩu hiện tại không đúng.";
+        passwordUpdateMessage.style.color = "red";
+        return;
+      }
+
+      if (newPassword.length < 6) {
+        passwordUpdateMessage.textContent = "Mật khẩu mới phải có ít nhất 6 ký tự.";
+        passwordUpdateMessage.style.color = "red";
+        return;
+      }
+
+      if (newPassword !== confirmNewPassword) {
+        passwordUpdateMessage.textContent = "Mật khẩu mới và xác nhận mật khẩu không khớp.";
+        passwordUpdateMessage.style.color = "red";
+        return;
+      }
+
+      // Lưu mật khẩu mới vào localStorage (RẤT KHÔNG AN TOÀN!)
+      localStorage.setItem("password", newPassword);
+      passwordUpdateMessage.textContent = "Đổi mật khẩu thành công!";
+      passwordUpdateMessage.style.color = "green";
+
+      // Xóa các trường nhập liệu
+      currentPasswordInput.value = "";
+      newPasswordInput.value = "";
+      confirmNewPasswordInput.value = "";
+    }
+
+    // Hàm để tăng điểm cộng (ví dụ: khi người dùng thực hiện một hành động nào đó)
+    function addPoints(amount) {
+      let currentPoints = parseInt(localStorage.getItem("userPoints")) || 0;
+      currentPoints += amount;
+      localStorage.setItem("userPoints", currentPoints);
+      document.getElementById("accountPoints").textContent = currentPoints; // Cập nhật hiển thị
+      console.log(`Đã thêm ${amount} điểm. Tổng điểm: ${currentPoints}`);
+    }
+
+    // Ví dụ: Bạn có thể gọi addPoints(10) từ một nơi khác trong ứng dụng khi người dùng hoàn thành một nhiệm vụ.
+  </script>
+</body>
+</html>
