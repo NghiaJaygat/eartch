@@ -1,32 +1,124 @@
 /* home.css */
 
-/* ... (Giữ nguyên các quy tắc CSS phía trên không đổi) ... */
-
-/* Main Navigation for cards */
-nav {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 25px;
-  max-width: 1200px;
-  margin-bottom: 50px;
+/* Header styles */
+header {
+  text-align: center;
+  padding: 40px 20px 20px 20px; /* More top padding, some bottom padding */
+  margin-bottom: 30px; /* Space between header and main nav cards */
 }
 
+header h1 {
+  font-size: 2.8em;
+  color: var(--heading-color-light); /* Use variable from style.css */
+  margin-bottom: 10px;
+}
+
+body.dark-mode header h1 {
+    color: var(--heading-color-dark); /* Dark mode heading color */
+}
+
+header p {
+  font-size: 1.2em;
+  color: var(--text-color-light); /* Use variable from style.css */
+  max-width: 600px;
+  margin: 0 auto; /* Center the paragraph */
+  line-height: 1.6;
+}
+
+body.dark-mode header p {
+    color: var(--text-color-dark); /* Dark mode text color */
+}
+
+/* Auth Navigation (Đăng nhập/Đăng ký) */
+/* Cần đảm bảo rằng các quy tắc này chỉ áp dụng cho NAV đầu tiên nếu không có class */
+header nav:first-of-type { /* Chọn thẻ NAV đầu tiên trong HEADER */
+  display: flex;
+  justify-content: flex-end; /* Align to the right */
+  padding: 10px 20px 0 20px; /* Top padding, no bottom padding */
+  gap: 10px;
+  position: absolute; /* Position relative to body */
+  top: 0;
+  right: 0;
+  width: 100%;
+  box-sizing: border-box; /* Include padding in width calculation */
+}
+/* Đảm bảo nút đăng nhập/đăng ký vẫn hiển thị đúng trên mobile */
+@media (max-width: 768px) {
+    header nav:first-of-type {
+        justify-content: center; /* Center auth buttons on small screens */
+        position: static; /* Remove fixed positioning if it causes issues on small screens */
+        padding: 10px;
+    }
+}
+
+
+/* Main Navigation for cards - CHỈNH SỬA LẠI SELECTOR VÀ THUỘC TÍNH */
+/* Chọn thẻ NAV trực tiếp là con của BODY và đứng sau HEADER */
+body > nav {
+  display: flex; /* Kích hoạt Flexbox */
+  flex-wrap: nowrap; /* TẮT tự động xuống dòng */
+  justify-content: flex-start; /* Căn chỉnh các thẻ từ đầu (trái) */
+  align-items: stretch; /* Đảm bảo các thẻ có chiều cao bằng nhau */
+  gap: 25px; /* Consistent gap between cards */
+  width: 100%; /* Chiếm toàn bộ chiều rộng có thể */
+  padding: 20px; /* Add some padding around the grid */
+  overflow-x: auto; /* TẠO THANH CUỘN NGANG KHI CẦN */
+  -webkit-overflow-scrolling: touch; /* Cải thiện cuộn trên iOS */
+  /* Loại bỏ margin auto theo chiều ngang nếu muốn cuộn từ đầu trang */
+  margin: 0; /* Đặt margin về 0 để padding được tính đúng */
+  flex-grow: 1; /* Cho phép phần này giãn ra để đẩy footer xuống */
+}
+
+/* Ẩn thanh cuộn nếu muốn, chỉ hiện chức năng cuộn */
+body > nav::-webkit-scrollbar {
+  height: 8px; /* Chiều cao của thanh cuộn ngang */
+}
+
+body > nav::-webkit-scrollbar-track {
+  background: transparent; /* Nền trong suốt */
+}
+
+body > nav::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.2); /* Màu của thanh cuộn */
+  border-radius: 10px;
+}
+
+body > nav::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 0, 0, 0.4);
+}
+
+body.dark-mode > nav::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+body.dark-mode > nav::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.4);
+}
+
+
+/* Individual Card Styling */
 .card {
-  background: white;
+  background: var(--container-bg-light);
   border-radius: 12px;
-  box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+  box-shadow: 0 6px 20px var(--container-shadow-light);
   padding: 25px;
-  width: 280px;
-  min-height: 280px;
+  width: 300px; /* Cố định chiều rộng của thẻ */
+  min-width: 280px; /* Giới hạn chiều rộng tối thiểu */
+  flex-shrink: 0; /* NGĂN KHÔNG CHO THẺ BỊ THU NHỎ */
+  height: auto; /* Cho phép chiều cao tự động điều chỉnh nội dung */
   text-align: center;
-  transition: transform 0.3s, box-shadow 0.3s;
+  transition: transform 0.3s, box-shadow 0.3s, background 0.3s ease;
   position: relative;
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: space-between;
+  align-items: center; /* Center content horizontally */
+  justify-content: space-between; /* Distribute space between icon, heading, paragraph, and link */
+}
+
+body.dark-mode .card {
+  background: var(--container-bg-dark);
+  box-shadow: 0 6px 20px var(--container-shadow-dark);
 }
 
 .card:hover {
@@ -41,96 +133,93 @@ nav {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  font-size: 8em;
-  color: #e0e0e0;
-  opacity: 0.3;
-  z-index: 0;
-  pointer-events: none;
-  transition: opacity 0.3s ease, transform 0.3s ease;
+  font-size: 8em; /* Kích thước lớn hơn */
+  color: rgba(0, 0, 0, 0.05); /* Màu rất nhạt */
+  z-index: 0; /* Đảm bảo nằm dưới nội dung */
+  transition: color 0.3s ease;
 }
 
-.card:hover::before {
-  opacity: 0.45;
-  transform: translate(-50%, -50%) scale(1.05);
+body.dark-mode .card::before {
+    color: rgba(255, 255, 255, 0.05); /* Lighter for dark mode */
 }
 
-/* Đảm bảo nội dung nằm trên icon nền */
-.card h2,
-.card p,
-.card a {
+.card h2 {
+  font-size: 1.8em;
+  margin-bottom: 10px; /* Space after heading */
+  position: relative; /* Ensure it's above pseudo-element */
+  z-index: 1;
+}
+
+.card p {
+  font-size: 1em;
+  color: var(--text-color-light); /* Use variable from style.css */
+  margin-bottom: 20px; /* Space before the link */
+  flex-grow: 1; /* Allow paragraph to grow and push button down */
   position: relative;
   z-index: 1;
 }
 
-/* Card H2 - Tiêu đề của từng card */
-.card h2 {
-  font-size: 1.6em;
-  margin-bottom: 12px;
-  color: #0d47a1;
-  font-weight: 600;
-  text-shadow: 0.5px 0.5px 1px rgba(0,0,0,0.05);
+body.dark-mode .card p {
+    color: var(--text-color-dark); /* Dark mode text color */
 }
 
-/* Card Paragraph - Mô tả trong từng card */
-.card p {
-  flex-grow: 1;
-  margin-bottom: 15px;
-  font-size: 1.1em; /* Tăng kích thước chữ một chút */
-  color: #444; /* Màu chữ tối hơn một chút để rõ ràng */
-  font-weight: 500; /* Làm chữ đậm vừa phải */
-  line-height: 1.5; /* Tăng khoảng cách dòng để dễ đọc hơn */
-  text-shadow: 0.2px 0.2px 0.5px rgba(0,0,0,0.02); /* Đổ bóng rất nhẹ */
-}
-
-/* Card Link - Nút "Vào trang" */
 .card a {
-  margin-top: auto;
-  background-color: #4CAF50;
+  margin-top: auto; /* Push the link to the bottom of the flex container (.card) */
+  background-color: #4CAF50; /* A pleasant green for actions */
   color: white;
-  padding: 12px 22px; /* Tăng padding để nút lớn hơn */
-  border-radius: 8px; /* Bo tròn góc nút nhiều hơn */
+  padding: 12px 22px;
+  border-radius: 8px;
   text-decoration: none;
-  font-size: 1.15em; /* Tăng kích thước chữ nút */
-  transition: background-color 0.3s, transform 0.2s; /* Thêm transform cho hover */
-  font-weight: 600; /* Làm chữ nút đậm hơn */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Thêm đổ bóng cho nút */
+  font-size: 1.15em;
+  transition: background-color 0.3s, transform 0.2s;
+  font-weight: 600;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  position: relative;
+  z-index: 1;
 }
 
 .card a:hover {
   background-color: #45a049;
-  transform: translateY(-2px); /* Hiệu ứng nhấc nhẹ nút khi hover */
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15); /* Đổ bóng mạnh hơn khi hover */
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
 }
 
-/* Footer */
-footer {
-  margin-top: 50px;
-  padding: 20px;
-  text-align: center;
-  color: #777;
-  font-size: 0.95em; /* Kích thước chữ footer */
-  width: 100%;
-}
 
-/* Responsive adjustments */
-/* ... (Giữ nguyên các quy tắc @media không đổi, hoặc điều chỉnh font-size nếu cần) ... */
-
-@media (max-width: 992px) {
-  /* ... */
-  .card p {
-    font-size: 1.05em; /* Điều chỉnh lại trên tablet */
-  }
-  .card a {
-    font-size: 1.1em;
-    padding: 10px 20px;
-  }
-}
-
+/* Responsive adjustments for home.html */
 @media (max-width: 768px) {
-  /* ... */
-  .card p {
-    font-size: 1em; /* Điều chỉnh lại trên mobile */
+  header {
+    padding: 30px 15px 15px 15px;
+    margin-bottom: 20px;
   }
+
+  header h1 {
+    font-size: 2.2em;
+  }
+
+  header p {
+    font-size: 1em;
+  }
+
+  body > nav { /* Selector cho thẻ nav chứa card trên mobile */
+    gap: 15px; /* Slightly smaller gap for smaller screens */
+    padding: 15px;
+    margin: 20px auto; /* Tạm thời để margin auto, nhưng ưu tiên padding và cuộn */
+  }
+
+  .card {
+    width: 260px; /* Slightly smaller card width on tablets */
+    min-width: 240px; /* Adjusted min-width */
+    padding: 20px;
+  }
+
+  .card h2 {
+    font-size: 1.5em;
+  }
+
+  .card p {
+    font-size: 0.95em;
+  }
+
   .card a {
     font-size: 1em;
     padding: 10px 18px;
@@ -138,12 +227,60 @@ footer {
 }
 
 @media (max-width: 480px) {
-  /* ... */
-  .card p {
-    font-size: 0.95em;
+  header {
+    padding: 20px 10px 10px 10px;
   }
+
+  header h1 {
+    font-size: 1.8em;
+  }
+
+  body > nav { /* Selector cho thẻ nav chứa card trên mobile */
+    gap: 10px; /* Even smaller gap on mobile */
+    padding: 10px;
+    margin: 15px auto; /* Tạm thời để margin auto, nhưng ưu tiên padding và cuộn */
+  }
+
+  .card {
+    width: 220px; /* Smallest card width for mobile */
+    min-width: 200px; /* Ensure it doesn't get too small */
+    min-height: 200px;
+    padding: 15px;
+  }
+
+  .card::before {
+    font-size: 6em; /* Smaller icon size */
+  }
+
+  .card h2 {
+    font-size: 1.3em;
+  }
+
+  .card p {
+    font-size: 0.9em;
+  }
+
   .card a {
-    font-size: 0.95em;
+    font-size: 0.9em;
     padding: 8px 15px;
   }
+}
+.card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between; /* Cách đều phần tử */
+  align-items: center;
+  height: 100%; /* Đảm bảo cao bằng nhau khi có thể */
+  /* Giữ các thiết lập cũ khác */
+}
+.card::before {
+  content: attr(data-icon);
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 8em;
+  color: rgba(0, 0, 0, 0.5); /* <--- Đây là độ mờ */
+  z-index: 0;
+  transition: color 0.3s ease;
 }

@@ -1,0 +1,101 @@
+body {
+  background: linear-gradient(to bottom, #eaf6ff, #ffffff);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  margin: 0;
+  padding: 0;
+  color: #1a1a1a;
+  text-align: center;
+}
+
+h1 {
+  color: #0d47a1;
+  font-size: 2rem;
+  margin: 20px 0;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  padding: 20px;
+}
+
+.country-card {
+  background-color: #ffffff;
+  border-radius: 20px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  width: 280px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.country-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+}
+
+.country-card img {
+  width: 80px;
+  height: auto;
+  border-radius: 10px;
+}
+
+.country-card h3 {
+  margin: 10px 0;
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+
+button {
+  background-color: #1976d2;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  margin: 6px 0;
+  border-radius: 10px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+button:hover {
+  background-color: #1565c0;
+}
+
+@media (min-width: 768px) {
+  .container {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+}
+
+
+
+
+
+/* Common button styles (for navigation, forms, etc.) */
+.btn-primary {
+    display: inline-block;
+    background-color: var(--link-color);
+
+    padding: 10px 20px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: bold;
+    margin-top: 20px; /* Space from content above */
+    transition: background-color 0.3s ease;
+}
+
+.btn-primary:hover {
+    background-color: var(--link-hover-color);
+}
+
+
+
+
+

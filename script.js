@@ -119,21 +119,26 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 // Cập nhật nội dung của resultDiv với thông tin chi tiết và nút yêu thích
                 resultDiv.innerHTML = `
-                    <img src="${flag}" alt="Quốc kỳ ${name}" class="country-flag" />
-                    <h2>${name}</h2>
-                    <p><strong>Thủ đô:</strong> ${capital}</p>
-                    <p><strong>Dân số:</strong> ${population}</p>
-                    <p><strong>Diện tích:</strong> ${area}</p>
-                    <p><strong>Tiền tệ:</strong> ${currency}</p>
-                    <p><strong>Khu vực:</strong> ${region}</p>
-                    <p><strong>Ngôn ngữ:</strong> ${languages}</p>
-
-                    <h3>Bản đồ Google Maps</h3>
-                    <iframe
-                        src="https://maps.google.com/maps?q=${encodeURIComponent(name)}&output=embed"
-                        class="google-map" allowfullscreen=""
-                        loading="lazy" referrerpolicy="no-referrer-when-downgrade">
-                    </iframe>
+                    <div class="country-header">
+                        <img src="${flag}" alt="Quốc kỳ ${name}" class="country-flag" />
+                        <h2>${name}</h2>
+                    </div>
+                    <div class="country-info-grid">
+                        <p><strong>Thủ đô:</strong> ${capital}</p>
+                        <p><strong>Dân số:</strong> ${population}</p>
+                        <p><strong>Diện tích:</strong> ${area}</p>
+                        <p><strong>Tiền tệ:</strong> ${currency}</p>
+                        <p><strong>Khu vực:</strong> ${region}</p>
+                        <p><strong>Ngôn ngữ:</strong> ${languages}</p>
+                    </div>
+                    <div class="country-map-section">
+                        <h3>Bản đồ Google Maps</h3>
+                        <iframe
+                            src="https://maps.google.com/maps?q=${encodeURIComponent(name)}&output=embed"
+                            class="google-map" allowfullscreen=""
+                            loading="lazy" referrerpolicy="no-referrer-when-downgrade">
+                        </iframe>
+                    </div>
                     <button class="btn add-to-favorites-btn" onclick="addToFavorites('${name}', '${flag}')">❤️ Thêm vào yêu thích</button>
                 `;
             })
@@ -157,7 +162,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Hàm thêm vào yêu thích (được gọi từ onclick của nút)
     function addToFavorites(name, flag) {
-        const user = localStorage.getItem("username") || "guest"; // Sử dụng "guest" nếu chưa đăng nhập
+        const user = localStorage.getItem("username"); // Get username
+        if (!user || user === "guest") { // Check if user is logged in
+            alert("Vui lòng đăng nhập để thêm quốc gia vào danh sách yêu thích.");
+            return;
+        }
+
         const key = "favorites_" + user;
         const existing = JSON.parse(localStorage.getItem(key)) || [];
 
